@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="来自内蒙古赤峰的摄影作品集，记录风景、人像与街头日常。">
+  <title>林间｜摄影作品</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="about-link" href="about.html">关于我 <span aria-hidden="true">↗</span></a>
+    <a class="wordmark" href="index.html" aria-label="林间摄影首页">LIN JIAN<span> / PHOTOGRAPHY</span></a>
+    <a class="location" href="https://maps.google.com/?q=赤峰市+内蒙古" target="_blank" rel="noreferrer">内蒙古 · 赤峰 <span>42.2578°N, 118.8869°E</span></a>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <p class="eyebrow">PHOTOGRAPHY · 2026</p>
+        <h1 id="page-title">在日常里，<br>寻找安静的瞬间。</h1>
+      </div>
+      <p class="intro-note">光落下的地方，时间慢了一点。<br>一些来自北方，也来自路上的记录。</p>
+    </section>
+
+    <section class="gallery-section" aria-label="摄影作品">
+      <div class="gallery-toolbar">
+        <div class="filters" role="group" aria-label="作品分类">
+          <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">全部 <span data-total-count>00</span></button>
+          <button class="filter" type="button" data-filter="landscape" aria-pressed="false">风景</button>
+          <button class="filter" type="button" data-filter="portrait" aria-pressed="false">人像</button>
+          <button class="filter" type="button" data-filter="street" aria-pressed="false">扫街</button>
+        </div>
+        <p class="result-count" aria-live="polite"></p>
+      </div>
+      <div class="photo-grid" id="photo-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2025 LIN JIAN</span>
+    <span>MADE IN CHIFENG, INNER MONGOLIA</span>
+    <a href="#top" aria-label="返回页面顶部">BACK TO TOP ↑</a>
+  </footer>
+
+  <dialog class="viewer" aria-label="照片查看器">
+    <button class="viewer-close" type="button" aria-label="关闭照片">×</button>
+    <button class="viewer-prev" type="button" aria-label="上一张">←</button>
+    <figure><img class="viewer-image" alt=""><figcaption class="viewer-caption"></figcaption></figure>
+    <button class="viewer-next" type="button" aria-label="下一张">→</button>
+  </dialog>
+  <script src="data/photos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
