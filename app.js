@@ -13,31 +13,46 @@
   function render(items) {
     visible = items;
     grid.replaceChildren();
-    count.textContent = `${String(items.length).padStart(2, '0')} PHOTOGRAPHS`;
+    count.textContent = `${String(items.length).padStart(2, '0')} WORKS`;
     items.forEach((photo, index) => {
       const figure = document.createElement('figure');
       figure.className = 'photo-card';
       figure.tabIndex = 0;
       figure.setAttribute('role', 'button');
-      figure.setAttribute('aria-label', `查看照片：${photo.title}`);
+      const isVideo = photo.type === 'video';
+      figure.setAttribute('aria-label', `${isVideo ? '播放视频' : '查看照片'}：${photo.title}`);
       const wrap = document.createElement('div');
       wrap.className = 'photo-image-wrap';
-      const image = document.createElement('img');
-      image.className = 'photo-image';
-      image.src = photo.image;
-      image.alt = photo.alt || photo.title;
-      image.loading = index < 2 ? 'eager' : 'lazy';
-      image.decoding = 'async';
-      image.addEventListener('error', () => {
-        image.classList.add('is-broken');
-        if (!wrap.querySelector('.image-fallback')) {
-          const fallback = document.createElement('span');
-          fallback.className = 'image-fallback';
-          fallback.textContent = 'IMAGE UNAVAILABLE';
-          wrap.append(fallback);
-        }
-      });
-      wrap.append(image);
+      if (isVideo) {
+        const video = document.createElement('video');
+        video.className = 'photo-video';
+        if (photo.poster) video.poster = photo.poster;
+        video.src = photo.video;
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = 'none';
+        video.setAttribute('aria-label', `播放：${photo.title}`);
+        video.addEventListener('click', event => event.stopPropagation());
+        video.addEventListener('keydown', event => event.stopPropagation());
+        wrap.append(video);
+      } else {
+        const image = document.createElement('img');
+        image.className = 'photo-image';
+        image.src = photo.image;
+        image.alt = photo.alt || photo.title;
+        image.loading = index < 2 ? 'eager' : 'lazy';
+        image.decoding = 'async';
+        image.addEventListener('error', () => {
+          image.classList.add('is-broken');
+          if (!wrap.querySelector('.image-fallback')) {
+            const fallback = document.createElement('span');
+            fallback.className = 'image-fallback';
+            fallback.textContent = 'IMAGE UNAVAILABLE';
+            wrap.append(fallback);
+          }
+        });
+        wrap.append(image);
+      }
       const caption = document.createElement('figcaption');
       caption.className = 'photo-meta';
       const title = document.createElement('span');
@@ -69,9 +84,25 @@
     const photo = visible[activeIndex];
     if (!photo) return;
     const image = viewer.querySelector('.viewer-image');
-    image.src = photo.image;
-    image.alt = photo.alt || photo.title;
+    const video = viewer.querySelector('.viewer-video');
+    const isVideo = photo.type === 'video';
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    image.hidden = isVideo;
+    video.hidden = !isVideo;
+    if (isVideo) {
+      if (photo.poster) video.poster = photo.poster;
+      else video.removeAttribute('poster');
+      video.src = photo.video;
+      video.load();
+    } else {
+      image.src = photo.image;
+      image.alt = photo.alt || photo.title;
+    }
     viewer.querySelector('.viewer-caption').textContent = `${photo.title}  /  ${photo.place} · ${photo.year}`;
+    viewer.querySelector('.viewer-next').disabled = visible.length < 2;
+    viewer.querySelector('.viewer-prev').disabled = visible.length < 2;
   }
 
   filters.forEach(button => button.addEventListener('click', () => {
@@ -92,6 +123,12 @@
   viewer.querySelector('.viewer-next').addEventListener('click', () => {
     activeIndex = (activeIndex + 1) % visible.length;
     updateViewer();
+  });
+  viewer.addEventListener('close', () => {
+    const video = viewer.querySelector('.viewer-video');
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
   });
   viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
   viewer.addEventListener('keydown', event => {
