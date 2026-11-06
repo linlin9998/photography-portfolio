@@ -5,4 +5,5 @@
  */
 window.PHOTOS = [
   { id: 'mountain-light01', category: 'suipai', title: '乐彼W4 acg', place: '赤峰 · 内蒙古', year: '2026', image: 'https://linhan.art/ynf1no03t0m000dlnm5qro0b4e8lzg04DIYxDIeOBIQxDpxwDdaP.jpg#', alt: '随拍' },
+  { id: 'mountain-light01', category: 'suipai', title: '逆转未来 木振膜', place: '赤峰 · 内蒙古', year: '2026', image: 'https://linhan.art/ymjew503t0m000dlnm5ttknpsda7z55gDIYxDIeOBIQxDpxwDdaP.jpg#', alt: '随拍' },
 ];
