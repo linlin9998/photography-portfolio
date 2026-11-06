@@ -4,5 +4,5 @@
  * Example: { id: 'new-01', category: 'landscape', title: '作品名', place: '拍摄地点', year: '2025', image: 'https://...', alt: '图片描述', pan123: 'https://www.123pan.com/s/...' }
  */
 window.PHOTOS = [
-  { id: 'mountain-light01', category: 'suipai', title: '乐彼W4 acg', place: '赤峰 · 内蒙古', year: '2026', image: 'https://linhan.art/T/github/DDDD0078.JPG#', alt: '随拍' },
+  { id: 'mountain-light01', category: 'suipai', title: '乐彼W4 acg', place: '赤峰 · 内蒙古', year: '2026', image: 'https://linhan.art/ynf1no03t0m000dlnm5qro0b4e8lzg04DIYxDIeOBIQxDpxwDdaP.jpg#', alt: '随拍' },
 ];
