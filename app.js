@@ -10,6 +10,39 @@
   let visible = photos.slice();
   let activeIndex = 0;
 
+  function configureVideo(video, photo) {
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('aria-label', `播放：${photo.title}`);
+    if (photo.poster) {
+      video.poster = photo.poster;
+    } else {
+      video.crossOrigin = 'anonymous';
+      video.addEventListener('loadedmetadata', () => {
+        if (Number.isFinite(video.duration) && video.duration > 0) {
+          video.currentTime = Math.min(0.1, video.duration / 2);
+        }
+      }, { once: true });
+      video.addEventListener('seeked', () => {
+        if (!video.videoWidth || !video.videoHeight) return;
+        try {
+          const canvas = document.createElement('canvas');
+          const scale = Math.min(1, 640 / video.videoWidth);
+          canvas.width = Math.round(video.videoWidth * scale);
+          canvas.height = Math.round(video.videoHeight * scale);
+          const context = canvas.getContext('2d');
+          if (!context) return;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          video.poster = canvas.toDataURL('image/jpeg', 0.78);
+        } catch (error) {
+          // Some video hosts disallow extracting frames from cross-origin media.
+        }
+      }, { once: true });
+    }
+    video.src = photo.video;
+  }
+
   function render(items) {
     visible = items;
     grid.replaceChildren();
@@ -26,12 +59,7 @@
       if (isVideo) {
         const video = document.createElement('video');
         video.className = 'photo-video';
-        if (photo.poster) video.poster = photo.poster;
-        video.src = photo.video;
-        video.controls = true;
-        video.playsInline = true;
-        video.preload = 'none';
-        video.setAttribute('aria-label', `播放：${photo.title}`);
+        configureVideo(video, photo);
         video.addEventListener('click', event => event.stopPropagation());
         video.addEventListener('keydown', event => event.stopPropagation());
         wrap.append(video);
@@ -92,9 +120,8 @@
     image.hidden = isVideo;
     video.hidden = !isVideo;
     if (isVideo) {
-      if (photo.poster) video.poster = photo.poster;
-      else video.removeAttribute('poster');
-      video.src = photo.video;
+      video.removeAttribute('poster');
+      configureVideo(video, photo);
       video.load();
     } else {
       image.src = photo.image;
