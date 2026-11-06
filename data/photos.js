@@ -5,5 +5,5 @@
  */
 window.PHOTOS = [
   { id: 'mountain-light01', category: 'suipai', title: '乐彼W4 acg', place: '赤峰 · 内蒙古', year: '2026', image: 'https://linhan.art/ynf1no03t0m000dlnm5qro0b4e8lzg04DIYxDIeOBIQxDpxwDdaP.jpg#', alt: '随拍' },
-  { id: 'chifeng-street-video', type: 'video', category: 'suipai', title: '乌兰布统', place: '赤峰 · 内蒙古', year: '2026', video: 'https://linhan.art/T/github/d19d8688e6fe7dfbbb52375a1af18329_raw.mp4' }
+  { id: 'chifeng-street-video', type: 'video', category: 'suipai', title: '乌兰布统', place: '赤峰 · 内蒙古', year: '2026', video: 'https://linhan.art/T/github/d19d8688e6fe7dfbbb52375a1af18329_raw.mp4' },
 ];
